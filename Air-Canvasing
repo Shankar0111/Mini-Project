@@ -1,0 +1,46 @@
+import cv2
+import mediapipe as mp
+import numpy as np
+
+mp_face_mesh = mp.solutions.face_mesh
+face_mesh = mp_face_mesh.FaceMesh()
+
+cap = cv2.VideoCapture(0)
+
+canvas_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+canvas_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+canvas = np.zeros((canvas_height, canvas_width, 3), dtype=np.uint8)
+
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        print("Failed to grab frame")
+        break
+
+    frame = cv2.flip(frame, 1)
+
+    rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+    results = face_mesh.process(rgb_frame)
+
+    if results.multi_face_landmarks:
+        for face_landmarks in results.multi_face_landmarks:
+            for landmark in face_landmarks.landmark:
+                x = int(landmark.x * frame.shape[1])
+                y = int(landmark.y * frame.shape[0])
+                cv2.circle(frame, (x, y), 1, (0, 255, 0), -1)
+
+            nose_tip = face_landmarks.landmark[1]
+            nose_x = int(nose_tip.x * canvas_width)
+            nose_y = int(nose_tip.y * canvas_height)
+            cv2.circle(canvas, (nose_x, nose_y), 5, (255, 255, 255), -1)
+
+    cv2.imshow('Camera Feed', frame)
+    cv2.imshow('Paint Window', canvas)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
