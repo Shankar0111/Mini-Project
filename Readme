@@ -1,0 +1,41 @@
+Air Canvas using OpenCV and Mediapipe
+  This is a Python-based project that enables you to draw on a virtual canvas using hand gestures. It leverages OpenCV for computer vision tasks and Mediapipe for hand tracking, creating a simple but effective "air drawing" experience.
+
+Features
+  Hand Tracking: Tracks hand movements using Mediapipe.
+  Drawing in Air: Draws lines on a canvas using detected hand positions, with the ability to change colors.
+  Color Selection: Choose from four colors (Blue, Green, Red, Yellow).
+  Clear Canvas: Clear the canvas using a specific button.
+  Dynamic Line Creation: Draws continuous lines by tracking hand movements, with the ability to start new lines as you move.
+Requirements
+  Python 3.x
+  OpenCV
+  Mediapipe
+  Numpy
+
+Code Structure
+  Hand Tracking Setup: Mediapipe's hand-tracking module is initialized to detect hand landmarks.
+  Drawing Points: Points for different colors are stored in deque arrays to create lines on the canvas.
+  Button UI: Buttons for color selection and a clear button are drawn on the canvas.
+  Color Change Detection: If a hand is near a color button, it changes the drawing color. If near the clear button, it resets the canvas.
+  Draw Function: Points are connected to form lines in the selected color on the canvas.
+
+Run the Program: Run the script to open the webcam and initialize the canvas.
+  python air_canvas.py
+Drawing:
+  Use your forefinger to start drawing on the canvas.
+  Bring your thumb and forefinger close to start a new line segment.
+
+Selecting Colors:
+  Move your hand near the top color buttons to switch colors.
+Clearing Canvas:
+  Move your hand near the "CLEAR" button to erase everything.
+Quit: Press q to quit the application.
+
+Future Enhancements
+  Adding shape drawing tools for circles, rectangles, etc.
+  Adding undo and redo functionalities.
+  Refining hand tracking for smoother drawing.
+Credits
+  Mediapipe: Used for hand landmark detection.
+  OpenCV: Used for video capture, drawing, and color handling.
